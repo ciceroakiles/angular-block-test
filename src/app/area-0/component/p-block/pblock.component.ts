@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 // Extras
 import { ElementRef, ViewChild } from '@angular/core';
 import { Constants } from '../../common/constants';
+import { LogService } from 'src/app/service/log.service';
 
 @Component({
   selector: 'app-pblock-0',
@@ -63,7 +64,7 @@ export class PBlockComponent implements OnInit {
       default: this.key = ""; break;
     }
     // Logging
-    console.log("> key=" + this.key + " | posX=" + this.x + " | posY=" + this.y);
+    LogService.log("> key=" + this.key + " | posX=" + this.x + " | posY=" + this.y);
   }
 
   moveUp(): void {

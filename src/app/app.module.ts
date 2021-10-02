@@ -1,24 +1,23 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-// Componentes
 import { AppComponent } from './app.component';
-import { PBlockComponent as PBlock0 } from './area-0/component/p-block/pblock.component';
-import { ContainerComponent as Container0 } from './area-0/component/container/container.component';
-import { PBlockComponent as PBlock1 } from './area-1/component/p-block/pblock.component';
-import { ContainerComponent as Container1 } from './area-1/component/container/container.component';
+// Outros componentes e modulos
+import { LogService } from './service/log.service';
+import { Area0Module } from './area-0/common/area-0.module';
+import { Area1Module } from './area-1/common/area-1.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    PBlock0, Container0,
-    PBlock1, Container1
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    Area0Module,
+    Area1Module
   ],
-  providers: [],
+  providers: [LogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

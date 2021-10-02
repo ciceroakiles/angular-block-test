@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 // Componentes
-import { ContainerComponent as Container0 } from './area-0/component/container/container.component';
-import { ContainerComponent as Container1 } from './area-1/component/container/container.component';
+import { Area0Module, ContainerComponent as Container0 } from './area-0/common/area-0.module';
+import { Area1Module, ContainerComponent as Container1 } from './area-1/common/area-1.module';
 
 // Rotas
 const routes: Routes = [
@@ -11,7 +11,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), Area0Module, Area1Module],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

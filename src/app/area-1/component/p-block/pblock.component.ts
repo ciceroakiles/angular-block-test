@@ -62,8 +62,6 @@ export class PBlockComponent implements OnInit {
       case "ArrowRight": this.moveRight(); break;
       default: this.key = ""; break;
     }
-    // Logging
-    console.log("> key=" + this.key + " | posX=" + this.x + " | posY=" + this.y);
   }
 
   moveUp(): void {
