@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PBlockComponent } from './pblock.component';
 
-describe('BlockTestComponent', () => {
+describe('PBlockComponent', () => {
   let component: PBlockComponent;
   let fixture: ComponentFixture<PBlockComponent>;
 
