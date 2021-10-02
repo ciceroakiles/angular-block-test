@@ -4,11 +4,11 @@ import { ElementRef, ViewChild } from '@angular/core';
 import { Constants } from '../../common/constants';
 
 @Component({
-  selector: 'app-box-test0',
-  templateUrl: './box-test.component.html',
-  styleUrls: ['./box-test.component.css']
+  selector: 'app-container-1',
+  templateUrl: './container.component.html',
+  styleUrls: ['./container.component.css']
 })
-export class BoxTestComponent implements OnInit {
+export class ContainerComponent implements OnInit {
   // Variavel de referencia ao elemento DOM
   @ViewChild('boxDOM', { static: true }) boxTest!: ElementRef;
 

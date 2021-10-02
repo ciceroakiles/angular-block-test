@@ -4,12 +4,12 @@ import { ElementRef, ViewChild } from '@angular/core';
 import { Constants } from '../../common/constants';
 
 @Component({
-  selector: 'app-block-test0',
-  templateUrl: './block-test.component.html',
-  styleUrls: ['block-test.component.css'],
+  selector: 'app-pblock-0',
+  templateUrl: './pblock.component.html',
+  styleUrls: ['pblock.component.css'],
   host: { '(document:keydown)': 'keydown($event)' } // Listener
 })
-export class BlockTestComponent implements OnInit {
+export class PBlockComponent implements OnInit {
   // Variavel de referencia ao elemento DOM
   @ViewChild('blockDOM', { static: true }) blockTest!: ElementRef;
 

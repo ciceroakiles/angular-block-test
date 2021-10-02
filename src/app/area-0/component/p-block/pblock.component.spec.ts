@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BoxTestComponent } from './box-test.component';
+import { PBlockComponent } from './pblock.component';
 
-describe('BoxTestComponent', () => {
-  let component: BoxTestComponent;
-  let fixture: ComponentFixture<BoxTestComponent>;
+describe('BlockTestComponent', () => {
+  let component: PBlockComponent;
+  let fixture: ComponentFixture<PBlockComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BoxTestComponent ]
+      declarations: [ PBlockComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BoxTestComponent);
+    fixture = TestBed.createComponent(PBlockComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
