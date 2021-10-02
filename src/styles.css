@@ -2,6 +2,19 @@ body {
     background-color: black;
 }
 
+ul {
+    list-style: none;
+}
+  
+li::before {
+    content: "• ";
+    color: white;
+}
+
+a {
+    color: white;
+}
+
 .square { 
     border: 1px solid white;
     position: relative;

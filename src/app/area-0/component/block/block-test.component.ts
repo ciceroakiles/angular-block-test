@@ -1,54 +1,50 @@
 import { Component, OnInit } from '@angular/core';
-import { ElementRef, ViewChild } from '@angular/core'; // Extras
+// Extras
+import { ElementRef, ViewChild } from '@angular/core';
+import { Constants } from '../../common/constants';
 
 @Component({
-  selector: 'app-block',
-  templateUrl: './block.component.html',
-  styleUrls: ['block.component.css'],
+  selector: 'app-block-test0',
+  templateUrl: './block-test.component.html',
+  styleUrls: ['block-test.component.css'],
   host: { '(document:keydown)': 'keydown($event)' } // Listener
 })
-export class BlockComponent implements OnInit {
+export class BlockTestComponent implements OnInit {
   // Variavel de referencia ao elemento DOM
   @ViewChild('blockDOM', { static: true }) blockTest!: ElementRef;
-
-  // Constantes
-  readonly MIN_X = 0;
-  readonly MIN_Y = 0;
-  readonly MAX_X = 28;
-  readonly MAX_Y = 28;
 
   // Outras variaveis
   key?: string;           // Tecla pressionada
   x?: number;             // Posicao X
   y?: number;             // Posicao Y
-  loopH: boolean = true;  // Permitir loop horizontal
-  loopV: boolean = true;  // Permitir loop vertical
 
   constructor() { }
 
   lowerLeft(): void {
-    this.x = this.MIN_X;
-    this.y = this.MAX_Y;
+    this.x = Constants.MIN_X;
+    this.y = Constants.MAX_Y;
   }
 
   lowerRight(): void {
-    this.x = this.MAX_X;
-    this.y = this.MAX_Y;
+    this.x = Constants.MAX_X;
+    this.y = Constants.MAX_Y;
   }
 
   upperLeft(): void {
-    this.x = this.MIN_X;
-    this.y = this.MIN_Y;
+    this.x = Constants.MIN_X;
+    this.y = Constants.MIN_Y;
   }
 
   upperRight(): void {
-    this.x = this.MAX_X;
-    this.y = this.MIN_Y;
+    this.x = Constants.MAX_X;
+    this.y = Constants.MIN_Y;
   }
 
   ngOnInit(): void {
-    // Inicializacao
-    this.lowerLeft();
+    // Inicializacao (altera CSS)
+    this.blockTest.nativeElement.style.width = `${Constants.BLOCK_W}vw`;
+    this.blockTest.nativeElement.style.height = `${Constants.BLOCK_H}vw`;
+    this.upperRight();
   }
 
   ngDoCheck(): void {
@@ -72,37 +68,37 @@ export class BlockComponent implements OnInit {
 
   moveUp(): void {
     this.key = "up";
-    if (this.y! > this.MIN_Y) {
-      this.y! -= 4;
+    if (this.y! > Constants.MIN_Y) {
+      this.y! -= Constants.BLOCK_H;
     } else {
-      if (this.loopV) this.y! = this.MAX_Y;
+      if (Constants.LOOP_V) this.y! = Constants.MAX_Y;
     }
   }
 
   moveDown(): void {
     this.key = "down";
-    if (this.y! < this.MAX_Y) {
-      this.y! += 4;
+    if (this.y! < Constants.MAX_Y) {
+      this.y! += Constants.BLOCK_H;
     } else {
-      if (this.loopV) this.y! = this.MIN_Y;
+      if (Constants.LOOP_V) this.y! = Constants.MIN_Y;
     }
   }
 
   moveLeft(): void {
     this.key = "left";
-    if (this.x! > this.MIN_X) {
-      this.x! -= 4;
+    if (this.x! > Constants.MIN_X) {
+      this.x! -= Constants.BLOCK_W;
     } else {
-      if (this.loopH) this.x! = this.MAX_X;
+      if (Constants.LOOP_H) this.x! = Constants.MAX_X;
     }
   }
 
   moveRight(): void {
     this.key = "right";
-    if (this.x! < this.MAX_X) {
-      this.x! += 4;
+    if (this.x! < Constants.MAX_X) {
+      this.x! += Constants.BLOCK_W;
     } else {
-      if (this.loopH) this.x! = this.MIN_X;
+      if (Constants.LOOP_H) this.x! = Constants.MIN_X;
     }
   }
 

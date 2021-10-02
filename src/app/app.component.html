@@ -1,1 +1,12 @@
-<app-box></app-box>
+<ul>
+    <li>
+        <a *ngIf="!hasRoute('area-0')" routerLink="/area-0" routerLinkActive="active">area-0</a>
+        <a *ngIf="hasRoute('area-0')" routerLink="/" routerLinkActive="active">CLOSE</a>
+    </li>
+    <li>
+        <a *ngIf="!hasRoute('area-1')" routerLink="/area-1" routerLinkActive="active">area-1</a>
+        <a *ngIf="hasRoute('area-1')" routerLink="/" routerLinkActive="active">CLOSE</a>
+    </li>
+</ul>
+
+<router-outlet></router-outlet>
