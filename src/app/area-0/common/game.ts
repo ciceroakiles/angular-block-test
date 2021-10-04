@@ -20,7 +20,7 @@ export class Game {
             .subscribe(() => {
                 ContainerComponent.getBlocksPos();
                 // Permissao de automovimento
-                if (Constants.CAN_AUTOMOVE) PBlockComponent.autoMove();
+                if (Constants.AUTO_MOVE) PBlockComponent.autoMove();
                 // Permissoes de gravidade
                 if (Constants.GRAVITY_P) PBlockComponent.gravity();
                 if (Constants.GRAVITY_N) ContainerComponent.gravity();

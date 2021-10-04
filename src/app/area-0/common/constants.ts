@@ -26,6 +26,10 @@ export class Constants {
     static COLLIDE_N_TO_P: boolean = false;
     static COLLIDE_N_TO_N: boolean = false;
     // Motion
-    static CAN_AUTOMOVE: boolean = true;
+    static AUTO_MOVE: boolean = true;
     static CAN_STOP: boolean = false;
+    static ALLOW_UP: boolean = false;
+    static ALLOW_DOWN: boolean = false;
+    static ALLOW_LEFT: boolean = true;
+    static ALLOW_RIGHT: boolean = true;
 }

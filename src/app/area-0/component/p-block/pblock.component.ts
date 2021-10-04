@@ -75,13 +75,29 @@ export class PBlockComponent implements OnInit {
     return ((Game.getContainerMatrixValue(i, j) == 1) && Constants.COLLIDE_P_TO_N);
   }
 
-  // Movimentacoes
+  // Movimentacoes via teclas
   keydown(event: KeyboardEvent): void {
     switch (event.key) {
-      case "ArrowUp":    PBlockComponent.moveUp();    break;
-      case "ArrowDown":  PBlockComponent.moveDown();  break;
-      case "ArrowLeft":  PBlockComponent.moveLeft();  break;
-      case "ArrowRight": PBlockComponent.moveRight(); break;
+      case "ArrowUp": {
+        if (Constants.ALLOW_UP) {
+          if (Constants.AUTO_MOVE) PBlockComponent.key = "UP"; else PBlockComponent.moveUp();
+        }
+      } break;
+      case "ArrowDown": {
+        if (Constants.ALLOW_DOWN) {
+          if (Constants.AUTO_MOVE) PBlockComponent.key = "DOWN"; else PBlockComponent.moveDown();
+        }
+      } break;
+      case "ArrowLeft": {
+        if (Constants.ALLOW_LEFT) {
+          if (Constants.AUTO_MOVE) PBlockComponent.key = "LEFT"; else PBlockComponent.moveLeft();
+        }
+      } break;
+      case "ArrowRight": {
+        if (Constants.ALLOW_RIGHT) {
+          if (Constants.AUTO_MOVE) PBlockComponent.key = "RIGHT"; else PBlockComponent.moveRight();
+        }
+      } break;
       default: if (Constants.CAN_STOP) PBlockComponent.key = ""; break;
     }
     //PBlockComponent.printMove();
@@ -111,7 +127,7 @@ export class PBlockComponent implements OnInit {
 
   static moveDown(): void {
     if (!PBlockComponent.detectCollision(0, 1)) {
-      // Evita automovimentacao dupla
+      // Evita automovimentacao dupla por gravidade
       if (!Constants.GRAVITY_P) PBlockComponent.key = "DOWN";
       if (PBlockComponent.sy != Constants.MAX_Y) {
         PBlockComponent.sy! += Constants.BLOCK_H;
