@@ -13,9 +13,9 @@ import { LogService } from 'src/app/logger/log.service';
   //template: `` // Testes de template
 })
 export class ContainerComponent implements OnInit {
-  // Variavel de referencia ao elemento DOM em ngOnInit
+  // Variavel de referencia ao elemento DOM
   @ViewChild('containerDOM', { static: true }) container!: ElementRef;
-  
+
   // Outras variaveis
   private static matrix: any; //number[][];
   private static blocksPos: number[][] = [];

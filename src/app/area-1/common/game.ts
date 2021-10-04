@@ -23,7 +23,15 @@ export class Game {
                 // Permissoes de gravidade
                 if (Constants.GRAVITY_P) PBlockComponent.gravity();
                 if (Constants.GRAVITY_N) ContainerComponent.gravity();
-                //LogService.log(ContainerComponent.getBlocksPos());
+
+                // Regra 1 - Empilhar
+                if (PBlockComponent.getY() == Constants.LINES-1 || PBlockComponent.detectCollision(0, 1)) {
+                    ContainerComponent.addToMatrix(PBlockComponent.getX(), PBlockComponent.getY());
+                    PBlockComponent.setX(4);
+                    PBlockComponent.setY(0);
+                }
+
+                LogService.log(ContainerComponent.getBlocksPos());
                 ContainerComponent.eraseBlocksPos();
             });
     }

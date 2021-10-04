@@ -28,8 +28,8 @@ export class Constants {
     // Motion
     static AUTO_MOVE: boolean = true;
     static CAN_STOP: boolean = false;
-    static ALLOW_UP: boolean = false;
-    static ALLOW_DOWN: boolean = false;
+    static ALLOW_UP: boolean = true;
+    static ALLOW_DOWN: boolean = true;
     static ALLOW_LEFT: boolean = true;
     static ALLOW_RIGHT: boolean = true;
 }
