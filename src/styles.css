@@ -15,8 +15,25 @@ a {
     color: white;
 }
 
-.square { 
+div {
     border: 1px solid white;
-    position: relative;
     text-align: center;
+}
+
+div.container {
+    position: relative;
+    margin:0 auto;
+}
+
+div.square {
+    position: absolute;
+    background-color: gray;
+}
+
+div.adjust {
+    margin-left: -1px;
+}
+
+div.invisible {
+    border: none;
 }

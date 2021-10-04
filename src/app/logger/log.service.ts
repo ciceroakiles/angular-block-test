@@ -1,7 +1,5 @@
-import { Injectable } from '@angular/core';
-
-@Injectable()
 export class LogService {
+    
     static log(msg: any): void {
         const d = new Date();
         console.log(

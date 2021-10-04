@@ -1,3 +1,14 @@
-<div #boxDOM class="square" style="margin:0 auto;">
-    <app-pblock-0></app-pblock-0>
+<div #containerDOM class="container">
+    <div class="adjust" style="margin-top: -1px;">
+      <div class="invisible" *ngFor="let m of getMatrix(); let i = index">
+        <div class="invisible" *ngFor="let m of getMatrix(); let j = index">
+          <div class="invisible" *ngIf="getMatrixValue(i, j)">
+            <app-nblock-0 [x]='i' [y]='j'></app-nblock-0>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="adjust" style="margin-top: -2px;">
+      <app-pblock-0 [x]='0' [y]='3'></app-pblock-0>
+    </div>
 </div>
