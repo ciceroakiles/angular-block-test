@@ -48,17 +48,17 @@ export class ContainerComponent implements OnInit {
   }
 
   // Getter posicao X inicial (p-block)
-  static getPBlockX(): number {
+  static getInitialPBlockX(): number {
     return ContainerComponent.start_px;
   }
 
   // Getter posicao Y inicial (p-block)
-  static getPBlockY(): number {
+  static getInitialPBlockY(): number {
     return ContainerComponent.start_py;
   }
 
   // Encontra as posicoes de cada bloco
-  static getBlocksPos(): void {
+  static setBlocksPos(): void {
     for (var i: number = 0; i < Constants.COLUMNS; i++) {
       for (var j: number = 0; j < Constants.LINES; j++) {
         if (ContainerComponent.matrix[i][j] == 1) {
@@ -71,7 +71,12 @@ export class ContainerComponent implements OnInit {
     //LogService.log(ContainerComponent.blocksPos);
   }
 
-  // Esquece as posicoes para atualizar
+  // Retorna as posicoes
+  static getBlocksPos(): number[][] {
+    return ContainerComponent.blocksPos;
+  }
+
+  // Esquece as posicoes para atualizar sem acumular repeticoes
   static eraseBlocksPos(): void {
     ContainerComponent.blocksPos = [];
   }
@@ -119,9 +124,9 @@ export class ContainerComponent implements OnInit {
 
   // Inicializacao da matriz
   static initMatrix(): void {
-    ContainerComponent.matrix = [];
+    let max = (Constants.LINES > Constants.COLUMNS ? Constants.LINES : Constants.COLUMNS);
+    ContainerComponent.matrix = Array.from(Array(max), () => new Array(max));
     for (var i: number = 0; i < Constants.COLUMNS; i++) {
-      ContainerComponent.matrix[i] = [];
       for (var j: number = 0; j < Constants.LINES; j++) {
         ContainerComponent.matrix[i][j] = 0;
       }

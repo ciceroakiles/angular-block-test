@@ -38,6 +38,16 @@ export class PBlockComponent implements OnInit {
     this.block.nativeElement.style.marginTop = `${PBlockComponent.sy}vw`;
   }
 
+  // Setter posicao X
+  static setX(x: number): void {
+    PBlockComponent.sx = Constants.BLOCK_W * x;
+  }
+
+  // Setter posicao Y
+  static setY(y: number): void {
+    PBlockComponent.sy = Constants.BLOCK_H * y;
+  }
+
   // Getter posicao X
   static getX(): number {
     return (PBlockComponent.sx! / Constants.BLOCK_W);
