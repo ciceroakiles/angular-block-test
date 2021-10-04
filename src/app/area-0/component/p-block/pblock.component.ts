@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ElementRef, ViewChild } from '@angular/core';
 // Outros elementos de projeto
 import { Constants } from '../../common/constants';
-import { ContainerComponent } from 'src/app/area-0/area-0.module';
+import { Game } from '../../common/game';
 import { LogService } from 'src/app/logger/log.service';
 
 @Component({
@@ -28,8 +28,8 @@ export class PBlockComponent implements OnInit {
     // Dimensoes
     this.block.nativeElement.style.width = `${Constants.BLOCK_W}vw`;
     this.block.nativeElement.style.height = `${Constants.BLOCK_H}vw`;
-    PBlockComponent.sx = Constants.BLOCK_W * ContainerComponent.getPBlockX();
-    PBlockComponent.sy = Constants.BLOCK_H * ContainerComponent.getPBlockY();
+    PBlockComponent.sx = Constants.BLOCK_W * Game.getContainerPBlockX();
+    PBlockComponent.sy = Constants.BLOCK_H * Game.getContainerPBlockY();
   }
 
   // CSS update
@@ -38,12 +38,24 @@ export class PBlockComponent implements OnInit {
     this.block.nativeElement.style.marginTop = `${PBlockComponent.sy}vw`;
   }
 
+  // Getter posicao X
   static getX(): number {
     return (PBlockComponent.sx! / Constants.BLOCK_W);
   }
 
+  // Getter posicao Y
   static getY(): number {
     return (PBlockComponent.sy! / Constants.BLOCK_H);
+  }
+
+  // Getter tecla
+  static getKey(): string {
+    return PBlockComponent.key!;
+  }
+
+  // Setter tecla
+  static setKey(s: string): void {
+    PBlockComponent.key = s;
   }
 
   // Gravidade
@@ -60,57 +72,78 @@ export class PBlockComponent implements OnInit {
     if (j == -1) j = Constants.LINES-1;
     if (i == Constants.COLUMNS) i = 0;
     if (j == Constants.LINES) j = 0;
-    return ((ContainerComponent.getMatrixValue(i, j) == 1) && Constants.COLLIDE_P_TO_N);
+    return ((Game.getContainerMatrixValue(i, j) == 1) && Constants.COLLIDE_P_TO_N);
   }
 
   // Movimentacoes
   keydown(event: KeyboardEvent): void {
     switch (event.key) {
-      case "ArrowUp":    if (!PBlockComponent.detectCollision(0, -1)) PBlockComponent.moveUp();   break;
-      case "ArrowDown":  if (!PBlockComponent.detectCollision(0, 1)) PBlockComponent.moveDown();  break;
-      case "ArrowLeft":  if (!PBlockComponent.detectCollision(-1, 0)) PBlockComponent.moveLeft(); break;
-      case "ArrowRight": if (!PBlockComponent.detectCollision(1, 0)) PBlockComponent.moveRight(); break;
-      default: PBlockComponent.key = ""; break;
+      case "ArrowUp":    PBlockComponent.moveUp();    break;
+      case "ArrowDown":  PBlockComponent.moveDown();  break;
+      case "ArrowLeft":  PBlockComponent.moveLeft();  break;
+      case "ArrowRight": PBlockComponent.moveRight(); break;
+      default: if (Constants.CAN_STOP) PBlockComponent.key = ""; break;
     }
     //PBlockComponent.printMove();
   }
 
+  // Movimento automatico
+  static autoMove(): void {
+    switch (PBlockComponent.getKey()) {
+      case "UP":    PBlockComponent.moveUp();    break;
+      case "DOWN":  PBlockComponent.moveDown();  break;
+      case "LEFT":  PBlockComponent.moveLeft();  break;
+      case "RIGHT": PBlockComponent.moveRight(); break;
+      default: break;
+    }
+  }
+
   static moveUp(): void {
-    PBlockComponent.key = "up";
-    if (PBlockComponent.sy != Constants.MIN_Y) {
-      PBlockComponent.sy! -= Constants.BLOCK_H;
-    } else if (Constants.LOOP_V) {
-      PBlockComponent.sy = Constants.MAX_Y;
+    if (!PBlockComponent.detectCollision(0, -1)) {
+      PBlockComponent.key = "UP";
+      if (PBlockComponent.sy != Constants.MIN_Y) {
+        PBlockComponent.sy! -= Constants.BLOCK_H;
+      } else if (Constants.LOOP_V) {
+        PBlockComponent.sy = Constants.MAX_Y;
+      }
     }
   }
 
   static moveDown(): void {
-    PBlockComponent.key = "down";
-    if (PBlockComponent.sy != Constants.MAX_Y) {
-      PBlockComponent.sy! += Constants.BLOCK_H;
-    } else if (Constants.LOOP_V) {
-      PBlockComponent.sy = Constants.MIN_Y;
+    if (!PBlockComponent.detectCollision(0, 1)) {
+      // Evita automovimentacao dupla
+      if (!Constants.GRAVITY_P) PBlockComponent.key = "DOWN";
+      if (PBlockComponent.sy != Constants.MAX_Y) {
+        PBlockComponent.sy! += Constants.BLOCK_H;
+      } else if (Constants.LOOP_V) {
+        PBlockComponent.sy = Constants.MIN_Y;
+      }
     }
   }
 
   static moveLeft(): void {
-    PBlockComponent.key = "left";
-    if (PBlockComponent.sx != Constants.MIN_X) {
-      PBlockComponent.sx! -= Constants.BLOCK_W;
-    } else if (Constants.LOOP_H) {
-      PBlockComponent.sx! = Constants.MAX_X;
+    if (!PBlockComponent.detectCollision(-1, 0)) {
+      PBlockComponent.key = "LEFT";
+      if (PBlockComponent.sx != Constants.MIN_X) {
+        PBlockComponent.sx! -= Constants.BLOCK_W;
+      } else if (Constants.LOOP_H) {
+        PBlockComponent.sx! = Constants.MAX_X;
+      }
     }
   }
 
   static moveRight(): void {
-    PBlockComponent.key = "right";
-    if (PBlockComponent.sx != Constants.MAX_X) {
-      PBlockComponent.sx! += Constants.BLOCK_W;
-    } else if (Constants.LOOP_H) {
-      PBlockComponent.sx! = Constants.MIN_X;
+    if (!PBlockComponent.detectCollision(1, 0)) {
+      PBlockComponent.key = "RIGHT";
+      if (PBlockComponent.sx != Constants.MAX_X) {
+        PBlockComponent.sx! += Constants.BLOCK_W;
+      } else if (Constants.LOOP_H) {
+        PBlockComponent.sx! = Constants.MIN_X;
+      }
     }
   }
 
+  // Logging
   static printMove(): void {
     LogService.log("> key=" + PBlockComponent.key + " | posX=" + PBlockComponent.sx + " | posY=" + PBlockComponent.sy);
   }

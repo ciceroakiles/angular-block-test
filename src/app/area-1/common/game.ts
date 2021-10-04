@@ -4,18 +4,22 @@ import { ContainerComponent, PBlockComponent } from 'src/app/area-1/area-1.modul
 
 export class Game {
 
-    static timerSubscription: Subscription;
+    private static timerSubscription: Subscription;
+    private static speed = 1;
 
     static setup() {
         ContainerComponent.setPBlockX(0);
         ContainerComponent.setPBlockY(0);
+        //PBlockComponent.setKey("RIGHT");
     }
 
     static start(): void {
         Game.setup();
-        Game.timerSubscription = interval(Constants.TIME)
+        Game.timerSubscription = interval(Constants.CLOCK / this.speed)
             .subscribe(() => {
                 ContainerComponent.getBlocksPos();
+                // Permissao de automovimento
+                if (Constants.CAN_AUTOMOVE) PBlockComponent.autoMove();
                 // Permissoes de gravidade
                 if (Constants.GRAVITY_P) PBlockComponent.gravity();
                 if (Constants.GRAVITY_N) ContainerComponent.gravity();
@@ -25,5 +29,22 @@ export class Game {
 
     static stop(): void{
         Game.timerSubscription.unsubscribe();
+    }
+
+    // Alguns getters para comunicacao entre os componentes
+    static getContainerMatrixValue(i: number, j: number): number {
+        return ContainerComponent.getMatrixValue(i, j);
+    }
+    static getContainerPBlockX(): number {
+        return ContainerComponent.getPBlockX();
+    }
+    static getContainerPBlockY(): number {
+        return ContainerComponent.getPBlockY();
+    }
+    static getPBlockCompX(): number {
+        return PBlockComponent.getX();
+    }
+    static getPBlockCompY(): number {
+        return PBlockComponent.getY();
     }
 }

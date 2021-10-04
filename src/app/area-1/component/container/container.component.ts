@@ -4,7 +4,6 @@ import { ElementRef, ViewChild } from '@angular/core';
 // Outros elementos de projeto
 import { Constants } from '../../common/constants';
 import { Game } from '../../common/game';
-import { PBlockComponent } from 'src/app/area-1/area-1.module';
 import { LogService } from 'src/app/logger/log.service';
 
 @Component({
@@ -110,7 +109,7 @@ export class ContainerComponent implements OnInit {
 
   // Deteccao de colisao (n-block -> p-block)
   static detectPCollision(x: number, y: number): boolean {
-    return ((PBlockComponent.getX() == x && PBlockComponent.getY() == y) && Constants.COLLIDE_N_TO_P);
+    return ((Game.getPBlockCompX() == x && Game.getPBlockCompY() == y) && Constants.COLLIDE_N_TO_P);
   }
 
   // Deteccao de colisao (n-block -> n-block)

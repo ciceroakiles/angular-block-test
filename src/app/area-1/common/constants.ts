@@ -1,6 +1,6 @@
 export class Constants {
     // Time
-    static TIME: number = 2000;
+    static CLOCK: number = 1000;
     // Block
     static BLOCK_W: number = 2;
     static BLOCK_H: number = 2;
@@ -25,4 +25,7 @@ export class Constants {
     static COLLIDE_P_TO_N: boolean = true;
     static COLLIDE_N_TO_P: boolean = true;
     static COLLIDE_N_TO_N: boolean = true;
+    // Motion
+    static CAN_AUTOMOVE: boolean = true;
+    static CAN_STOP: boolean = false;
 }

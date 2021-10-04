@@ -1,6 +1,6 @@
 export class Constants {
     // Time
-    static TIME: number = 2000;
+    static CLOCK: number = 1000;
     // Blocks
     static BLOCK_W: number = 4;
     static BLOCK_H: number = 4;
@@ -17,12 +17,15 @@ export class Constants {
     static MAX_Y: number = Math.round(Constants.BOX_H - Constants.ADJUST) - Constants.BLOCK_H;
     // Loops
     static LOOP_H: boolean = true;
-    static LOOP_V: boolean = false;
+    static LOOP_V: boolean = true;
     // Gravity
-    static GRAVITY_P: boolean = true;
-    static GRAVITY_N: boolean = true;
+    static GRAVITY_P: boolean = false;
+    static GRAVITY_N: boolean = false;
     // Collisions
-    static COLLIDE_P_TO_N: boolean = true;
-    static COLLIDE_N_TO_P: boolean = true;
-    static COLLIDE_N_TO_N: boolean = true;
+    static COLLIDE_P_TO_N: boolean = false;
+    static COLLIDE_N_TO_P: boolean = false;
+    static COLLIDE_N_TO_N: boolean = false;
+    // Motion
+    static CAN_AUTOMOVE: boolean = true;
+    static CAN_STOP: boolean = false;
 }
