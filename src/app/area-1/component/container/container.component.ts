@@ -3,12 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { ElementRef, ViewChild } from '@angular/core';
 // Outros elementos de projeto
 import { Constants } from '../../common/constants';
-import { TimerService } from '../../common/timer.service';
+import { Game } from '../../common/game';
 import { PBlockComponent } from 'src/app/area-1/area-1.module';
 import { LogService } from 'src/app/logger/log.service';
 
 @Component({
-  selector: 'app-container-0',
+  selector: 'app-container-1',
   templateUrl: './container.component.html',
   styleUrls: ['./container.component.css']
   //template: `` // Testes de template
@@ -18,8 +18,10 @@ export class ContainerComponent implements OnInit {
   @ViewChild('containerDOM', { static: true }) container!: ElementRef;
 
   // Outras variaveis
-  static matrix: number[][];
-  static blocksPos: number[][] = [];
+  private static matrix: number[][];
+  private static blocksPos: number[][] = [];
+  private static start_px: number;
+  private static start_py: number;
 
   constructor() { }
 
@@ -28,18 +30,32 @@ export class ContainerComponent implements OnInit {
     this.container.nativeElement.style.width = `${Constants.BOX_W}vw`;
     this.container.nativeElement.style.height = `${Constants.BOX_H}vw`;
     ContainerComponent.initMatrix();
-    //this.printMatrix();
-    TimerService.start();
+    Game.start();
   }
 
   // Evita duplicacao de timers
   ngOnDestroy(): void {
-    TimerService.stop();
+    Game.stop();
   }
 
-  // Blocos iniciais
-  static initialBlocks(): void {
-    
+  // Setter posicao X inicial (p-block)
+  static setPBlockX(x: number): void {
+    ContainerComponent.start_px = x;
+  }
+
+  // Setter posicao Y inicial (p-block)
+  static setPBlockY(y: number): void {
+    ContainerComponent.start_py = y;
+  }
+
+  // Getter posicao X inicial (p-block)
+  static getPBlockX(): number {
+    return ContainerComponent.start_px;
+  }
+
+  // Getter posicao Y inicial (p-block)
+  static getPBlockY(): number {
+    return ContainerComponent.start_py;
   }
 
   // Encontra as posicoes de cada bloco
@@ -54,6 +70,11 @@ export class ContainerComponent implements OnInit {
     // Logging
     //LogService.log(PBlockComponent.getX() + " " + PBlockComponent.getY());
     //LogService.log(ContainerComponent.blocksPos);
+  }
+
+  // Esquece as posicoes para atualizar
+  static eraseBlocksPos(): void {
+    ContainerComponent.blocksPos = [];
   }
 
   // Gravidade
@@ -106,7 +127,7 @@ export class ContainerComponent implements OnInit {
         ContainerComponent.matrix[i][j] = 0;
       }
     }
-    ContainerComponent.initialBlocks();
+    //this.printMatrix();
   }
 
   // Adiciona bloco

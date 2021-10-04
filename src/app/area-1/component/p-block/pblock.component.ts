@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 // Extras
-import { ElementRef, Input, ViewChild } from '@angular/core';
+import { ElementRef, ViewChild } from '@angular/core';
 // Outros elementos de projeto
 import { Constants } from '../../common/constants';
 import { ContainerComponent } from 'src/app/area-1/area-1.module';
@@ -17,11 +17,9 @@ export class PBlockComponent implements OnInit {
   @ViewChild('pblockDOM', { static: true }) block!: ElementRef;
 
   // Outras variaveis
-  @Input() x?: number;    // Posicao X (tag)
-  @Input() y?: number;    // Posicao Y (tag)
-  static sx?: number;
-  static sy?: number;
-  static key?: string;
+  private static sx?: number;
+  private static sy?: number;
+  private static key?: string;
 
   constructor() { }
 
@@ -30,8 +28,8 @@ export class PBlockComponent implements OnInit {
     // Dimensoes
     this.block.nativeElement.style.width = `${Constants.BLOCK_W}vw`;
     this.block.nativeElement.style.height = `${Constants.BLOCK_H}vw`;
-    PBlockComponent.sx = this.x! * Constants.BLOCK_W;
-    PBlockComponent.sy = this.y! * Constants.BLOCK_H;
+    PBlockComponent.sx = Constants.BLOCK_W * ContainerComponent.getPBlockX();
+    PBlockComponent.sy = Constants.BLOCK_H * ContainerComponent.getPBlockY();
   }
 
   // CSS update
