@@ -4,28 +4,33 @@ import { ContainerComponent, PBlockComponent } from 'src/app/area-1/area-1.modul
 import { LogService } from 'src/app/logger/log.service';
 
 export class Game {
-
+    // Variaveis
     private static timerSubscription: Subscription;
-    private static speed = 7;
+    private static speed: number;
+    private static start_px: number;
+    private static start_py: number;
 
+    // Definicao
     private static setup(): void {
-        ContainerComponent.setInitialPBlockX(4);
-        ContainerComponent.setInitialPBlockY(0);
+        Game.speed = 7;
+        Game.start_px = 4;
+        Game.start_py = 0;
     }
 
     // Regra 1 - Empilhar
     private static rule1(): void {
         if (PBlockComponent.getY() == Constants.LINES-1 || PBlockComponent.detectCollision(0, 1)) {
             ContainerComponent.addToMatrix(PBlockComponent.getX(), PBlockComponent.getY());
-            PBlockComponent.setX(4);
-            PBlockComponent.setY(0);
+            PBlockComponent.setX(Game.start_px);
+            PBlockComponent.setY(Game.start_py);
         }
     }
 
+    // Permissoes
     private static timedMoves(): void {
-        // Permissao de automovimento
+        // Automovimento
         if (Constants.AUTO_MOVE) PBlockComponent.autoMove();
-        // Permissoes de gravidade
+        // Gravidade
         if (Constants.GRAVITY_P) PBlockComponent.gravity();
         if (Constants.GRAVITY_N) ContainerComponent.gravity();
     }
@@ -48,14 +53,14 @@ export class Game {
     }
 
     // Alguns getters para comunicacao entre os componentes
+    static getInitialPBlockX(): number {
+        return Game.start_px;
+    }
+    static getInitialPBlockY(): number {
+        return Game.start_py;
+    }
     static getContainerMatrixValue(i: number, j: number): number {
         return ContainerComponent.getMatrixValue(i, j);
-    }
-    static getContainerPBlockX(): number {
-        return ContainerComponent.getInitialPBlockX();
-    }
-    static getContainerPBlockY(): number {
-        return ContainerComponent.getInitialPBlockY();
     }
     static getPBlockCompX(): number {
         return PBlockComponent.getX();

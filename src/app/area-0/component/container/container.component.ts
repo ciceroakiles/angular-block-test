@@ -19,8 +19,6 @@ export class ContainerComponent implements OnInit {
   // Outras variaveis
   private static matrix: number[][];
   private static blocksPos: number[][] = [];
-  private static start_px: number;
-  private static start_py: number;
 
   constructor() { }
 
@@ -35,26 +33,6 @@ export class ContainerComponent implements OnInit {
   // Evita duplicacao de timers
   ngOnDestroy(): void {
     Game.stop();
-  }
-
-  // Setter posicao X inicial (p-block)
-  static setPBlockX(x: number): void {
-    ContainerComponent.start_px = x;
-  }
-
-  // Setter posicao Y inicial (p-block)
-  static setPBlockY(y: number): void {
-    ContainerComponent.start_py = y;
-  }
-
-  // Getter posicao X inicial (p-block)
-  static getInitialPBlockX(): number {
-    return ContainerComponent.start_px;
-  }
-
-  // Getter posicao Y inicial (p-block)
-  static getInitialPBlockY(): number {
-    return ContainerComponent.start_py;
   }
 
   // Encontra as posicoes de cada bloco
@@ -102,12 +80,7 @@ export class ContainerComponent implements OnInit {
         }
       }
     }
-    // Atualiza a matriz
-    for (var i in ContainerComponent.blocksPos) {
-      col = ContainerComponent.blocksPos[i][0];
-      line = ContainerComponent.blocksPos[i][1];
-      this.addToMatrix(col, line);
-    }
+    ContainerComponent.updateMatrix();
     // Logging
     //LogService.log(ContainerComponent.blocksPos);
   }
@@ -132,6 +105,13 @@ export class ContainerComponent implements OnInit {
       }
     }
     //this.printMatrix();
+  }
+
+  // Atualiza a matriz
+  static updateMatrix(): void {
+    for (var i in ContainerComponent.blocksPos) {
+      this.addToMatrix(ContainerComponent.blocksPos[i][0], ContainerComponent.blocksPos[i][1]);
+    }
   }
 
   // Adiciona bloco

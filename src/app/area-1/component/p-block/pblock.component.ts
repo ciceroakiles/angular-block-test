@@ -28,8 +28,8 @@ export class PBlockComponent implements OnInit {
     // Dimensoes
     this.block.nativeElement.style.width = `${Constants.BLOCK_W}vw`;
     this.block.nativeElement.style.height = `${Constants.BLOCK_H}vw`;
-    PBlockComponent.sx = Constants.BLOCK_W * Game.getContainerPBlockX();
-    PBlockComponent.sy = Constants.BLOCK_H * Game.getContainerPBlockY();
+    PBlockComponent.sx = Constants.BLOCK_W * Game.getInitialPBlockX();
+    PBlockComponent.sy = Constants.BLOCK_H * Game.getInitialPBlockY();
   }
 
   // CSS update
