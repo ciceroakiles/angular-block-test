@@ -1,7 +1,7 @@
 export class Constants {
     // Time
     static CLOCK: number = 1000;
-    // Block
+    // Blocks
     static BLOCK_W: number = 1.5;
     static BLOCK_H: number = 1.5;
     // Container

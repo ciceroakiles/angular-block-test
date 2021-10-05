@@ -62,8 +62,8 @@ export class Game {
                 ContainerComponent.setBlocksPos();
                 Game.timedMoves();
                 Game.rule1();
-                for (var j: number = 0; j < Constants.LINES; j++) {
-                    Game.rule2(j);
+                for (var line: number = 0; line < Constants.LINES; line++) {
+                    Game.rule2(line);
                 }
                 //LogService.log(ContainerComponent.getBlocksPos());
                 ContainerComponent.eraseBlocksPos();
