@@ -62,9 +62,9 @@ export class ContainerComponent implements OnInit {
   // Gravidade
   static gravity(): void {
     var col, line, nextLine: number = 0;
-    for (var j: number = 0; j < ContainerComponent.blocksPos.length; j++) {
-      col = ContainerComponent.blocksPos[j][0];
-      line = ContainerComponent.blocksPos[j][1];
+    for (var i: number = 0; i < ContainerComponent.blocksPos.length; i++) {
+      col = ContainerComponent.blocksPos[i][0];
+      line = ContainerComponent.blocksPos[i][1];
       // Verifica ultima linha
       if (line != Constants.LINES-1) {
         nextLine = line + 1;
@@ -73,16 +73,19 @@ export class ContainerComponent implements OnInit {
         nextLine = (Constants.LOOP_V ? 0 : line);
       }
       // Se nao ha colisoes, prossegue
-      if (!ContainerComponent.detectNCollision(col, nextLine)) {
-        if (!ContainerComponent.detectPCollision(col, nextLine)) {
-          ContainerComponent.remFromMatrix(col, line);
-          ContainerComponent.blocksPos[j][1] = nextLine;
-        }
+      if (ContainerComponent.noCollisions(col, nextLine)) {
+        ContainerComponent.remFromMatrix(col, line);
+        ContainerComponent.blocksPos[i][1] = nextLine;
       }
     }
     ContainerComponent.updateMatrix();
     // Logging
     //LogService.log(ContainerComponent.blocksPos);
+  }
+
+  // Detecta se nao ha nenhum dos dois tipos de colisao
+  static noCollisions(x: number, y: number): boolean {
+    return (!ContainerComponent.detectNCollision(x, y) && !ContainerComponent.detectPCollision(x, y));
   }
 
   // Deteccao de colisao (n-block -> p-block)

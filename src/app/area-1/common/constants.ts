@@ -20,7 +20,7 @@ export class Constants {
     static LOOP_V: boolean = false;
     // Gravity
     static GRAVITY_P: boolean = true;
-    static GRAVITY_N: boolean = false;
+    static GRAVITY_N: boolean = true;
     // Collisions
     static COLLIDE_P_TO_N: boolean = true;
     static COLLIDE_N_TO_P: boolean = true;

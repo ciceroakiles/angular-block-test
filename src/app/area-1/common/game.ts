@@ -19,10 +19,40 @@ export class Game {
 
     // Regra 1 - Empilhar
     private static rule1(): void {
+        // Verifica se atingiu a ultima linha, ou parou sobre um bloco (p-block)
         if (PBlockComponent.getY() == Constants.LINES-1 || PBlockComponent.detectCollision(0, 1)) {
+            // Cria um bloco no local exato e retorna ao inicio
             ContainerComponent.addToMatrix(PBlockComponent.getX(), PBlockComponent.getY());
             PBlockComponent.setX(Game.start_px);
             PBlockComponent.setY(Game.start_py);
+        }
+    }
+
+    // Regra 2 - Desempilhar linha horizontal completa
+    private static rule2(): void {
+        // Verificacao linha por linha
+        for (var line: number = 0; line < Constants.LINES; line++) {
+            let blocksPos: number[][] = ContainerComponent.getBlocksPos();
+            let cont = 0, flag = false;
+            for (var i in blocksPos) {
+                // Aumenta o contador para cada bloco vizinho
+                if (line == blocksPos[i][1]) cont++;
+                // Se o contador se iguala as colunas, inicia remocao
+                if (cont == Constants.COLUMNS) {
+                    flag = true;
+                    break;
+                }
+            }
+            cont = 0;
+            if (flag) {
+                // Remove cada bloco da linha
+                for (var i in blocksPos) {
+                    if (line == blocksPos[i][1]) {
+                        ContainerComponent.remFromMatrix(blocksPos[i][0], blocksPos[i][1]);
+                    }
+                }
+                flag = false;
+            }
         }
     }
 
@@ -42,6 +72,7 @@ export class Game {
                 ContainerComponent.setBlocksPos();
                 Game.timedMoves();
                 Game.rule1();
+                Game.rule2();
                 //LogService.log(ContainerComponent.getBlocksPos());
                 ContainerComponent.eraseBlocksPos();
             });
