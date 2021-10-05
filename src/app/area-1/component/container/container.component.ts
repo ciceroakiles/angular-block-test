@@ -10,7 +10,6 @@ import { LogService } from 'src/app/logger/log.service';
   selector: 'app-container-1',
   templateUrl: './container.component.html',
   styleUrls: ['./container.component.css']
-  //template: `` // Testes de template
 })
 export class ContainerComponent implements OnInit {
   // Variavel de referencia ao elemento DOM
@@ -44,8 +43,6 @@ export class ContainerComponent implements OnInit {
         }
       }
     }
-    // Logging
-    //LogService.log(PBlockComponent.getX() + " " + PBlockComponent.getY());
     //LogService.log(ContainerComponent.blocksPos);
   }
 
@@ -79,7 +76,6 @@ export class ContainerComponent implements OnInit {
       }
     }
     ContainerComponent.updateMatrix();
-    // Logging
     //LogService.log(ContainerComponent.blocksPos);
   }
 
