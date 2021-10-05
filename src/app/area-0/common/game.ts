@@ -8,11 +8,19 @@ export class Game {
     private static timerSubscription: Subscription;
     private static speed = 1;
 
-    static setup() {
+    private static setup(): void {
         ContainerComponent.setPBlockX(0);
         ContainerComponent.setPBlockY(3);
         ContainerComponent.addToMatrix(5, 3);
         PBlockComponent.setKey("RIGHT");
+    }
+
+    private static timedMoves(): void {
+        // Permissao de automovimento
+        if (Constants.AUTO_MOVE) PBlockComponent.autoMove();
+        // Permissoes de gravidade
+        if (Constants.GRAVITY_P) PBlockComponent.gravity();
+        if (Constants.GRAVITY_N) ContainerComponent.gravity();
     }
 
     static start(): void {
@@ -20,11 +28,7 @@ export class Game {
         Game.timerSubscription = interval(Constants.CLOCK / this.speed)
             .subscribe(() => {
                 ContainerComponent.setBlocksPos();
-                // Permissao de automovimento
-                if (Constants.AUTO_MOVE) PBlockComponent.autoMove();
-                // Permissoes de gravidade
-                if (Constants.GRAVITY_P) PBlockComponent.gravity();
-                if (Constants.GRAVITY_N) ContainerComponent.gravity();
+                Game.timedMoves();
                 //LogService.log(ContainerComponent.getBlocksPos());
                 ContainerComponent.eraseBlocksPos();
             });

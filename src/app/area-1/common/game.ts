@@ -8,9 +8,26 @@ export class Game {
     private static timerSubscription: Subscription;
     private static speed = 7;
 
-    static setup() {
+    private static setup(): void {
         ContainerComponent.setInitialPBlockX(4);
         ContainerComponent.setInitialPBlockY(0);
+    }
+
+    // Regra 1 - Empilhar
+    private static rule1(): void {
+        if (PBlockComponent.getY() == Constants.LINES-1 || PBlockComponent.detectCollision(0, 1)) {
+            ContainerComponent.addToMatrix(PBlockComponent.getX(), PBlockComponent.getY());
+            PBlockComponent.setX(4);
+            PBlockComponent.setY(0);
+        }
+    }
+
+    private static timedMoves(): void {
+        // Permissao de automovimento
+        if (Constants.AUTO_MOVE) PBlockComponent.autoMove();
+        // Permissoes de gravidade
+        if (Constants.GRAVITY_P) PBlockComponent.gravity();
+        if (Constants.GRAVITY_N) ContainerComponent.gravity();
     }
 
     static start(): void {
@@ -18,20 +35,9 @@ export class Game {
         Game.timerSubscription = interval(Constants.CLOCK / this.speed)
             .subscribe(() => {
                 ContainerComponent.setBlocksPos();
-                // Permissao de automovimento
-                if (Constants.AUTO_MOVE) PBlockComponent.autoMove();
-                // Permissoes de gravidade
-                if (Constants.GRAVITY_P) PBlockComponent.gravity();
-                if (Constants.GRAVITY_N) ContainerComponent.gravity();
-
-                // Regra 1 - Empilhar
-                if (PBlockComponent.getY() == Constants.LINES-1 || PBlockComponent.detectCollision(0, 1)) {
-                    ContainerComponent.addToMatrix(PBlockComponent.getX(), PBlockComponent.getY());
-                    PBlockComponent.setX(4);
-                    PBlockComponent.setY(0);
-                }
-
-                LogService.log(ContainerComponent.getBlocksPos());
+                Game.timedMoves();
+                Game.rule1();
+                //LogService.log(ContainerComponent.getBlocksPos());
                 ContainerComponent.eraseBlocksPos();
             });
     }
