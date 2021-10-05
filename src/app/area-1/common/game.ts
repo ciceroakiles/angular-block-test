@@ -12,7 +12,7 @@ export class Game {
 
     // Definicao
     private static setup(): void {
-        Game.speed = 7;
+        Game.speed = 10;
         Game.start_px = 4;
         Game.start_py = 0;
     }
@@ -29,30 +29,20 @@ export class Game {
     }
 
     // Regra 2 - Desempilhar linha horizontal completa
-    private static rule2(): void {
-        // Verificacao linha por linha
-        for (var line: number = 0; line < Constants.LINES; line++) {
-            let blocksPos: number[][] = ContainerComponent.getBlocksPos();
-            let cont = 0, flag = false;
+    private static rule2(lineArg: number): void {
+        var cont = 0, blocksPos: number[][] = ContainerComponent.getBlocksPos();
+        for (var i in blocksPos) {
+            // Contador de blocos vizinhos: caso se iguale as colunas, inicia remocao
+            if (lineArg == blocksPos[i][1]) cont++;
+            if (cont == Constants.COLUMNS) break;
+        }
+        if (cont == Constants.COLUMNS) {
+            // Remove cada bloco da mesma linha
             for (var i in blocksPos) {
-                // Aumenta o contador para cada bloco vizinho
-                if (line == blocksPos[i][1]) cont++;
-                // Se o contador se iguala as colunas, inicia remocao
-                if (cont == Constants.COLUMNS) {
-                    flag = true;
-                    break;
-                }
+                let col = blocksPos[i][0], line = blocksPos[i][1];
+                if (lineArg == line) ContainerComponent.remFromMatrix(col, line);
             }
             cont = 0;
-            if (flag) {
-                // Remove cada bloco da linha
-                for (var i in blocksPos) {
-                    if (line == blocksPos[i][1]) {
-                        ContainerComponent.remFromMatrix(blocksPos[i][0], blocksPos[i][1]);
-                    }
-                }
-                flag = false;
-            }
         }
     }
 
@@ -72,7 +62,9 @@ export class Game {
                 ContainerComponent.setBlocksPos();
                 Game.timedMoves();
                 Game.rule1();
-                Game.rule2();
+                for (var j: number = 0; j < Constants.LINES; j++) {
+                    Game.rule2(j);
+                }
                 //LogService.log(ContainerComponent.getBlocksPos());
                 ContainerComponent.eraseBlocksPos();
             });
