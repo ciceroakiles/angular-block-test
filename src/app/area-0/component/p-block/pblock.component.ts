@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-// Extras
-import { ElementRef, ViewChild } from '@angular/core';
-// Outros elementos de projeto
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Game, Constants } from '../../game';
 import { LogService } from 'src/app/logger/log.service';
 

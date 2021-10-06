@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-// Extras
-import { ElementRef, Input, ViewChild } from '@angular/core';
-// Outros elementos de projeto
+import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { Constants } from '../../game';
 
 @Component({
