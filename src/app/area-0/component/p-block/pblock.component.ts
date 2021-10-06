@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 // Extras
 import { ElementRef, ViewChild } from '@angular/core';
 // Outros elementos de projeto
-import { Constants } from '../../common/constants';
-import { Game } from '../../common/game';
+import { Game, Constants } from '../../game';
 import { LogService } from 'src/app/logger/log.service';
 
 @Component({

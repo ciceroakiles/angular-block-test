@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 // Extras
 import { ElementRef, Input, ViewChild } from '@angular/core';
 // Outros elementos de projeto
-import { Constants } from '../../common/constants';
+import { Constants } from '../../game';
 
 @Component({
   selector: 'app-nblock-1',
