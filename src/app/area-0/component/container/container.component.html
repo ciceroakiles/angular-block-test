@@ -3,7 +3,7 @@
       <div class="invisible" *ngFor="let m of getMatrix(); let i = index">
         <div class="invisible" *ngFor="let m of getMatrix(); let j = index">
           <div class="invisible" *ngIf="getMatrixValue(i, j)">
-            <app-nblock-0 [x]='i' [y]='j'></app-nblock-0>
+            <app-nblock-0 [x]='i' [y]='j' [follow]='false'></app-nblock-0>
           </div>
         </div>
       </div>

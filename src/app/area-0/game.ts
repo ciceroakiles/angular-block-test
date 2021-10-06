@@ -39,8 +39,8 @@ export class Game {
     }
 
     static stop(): void {
-        LogService.log("quit 0");
         Game.timerSubscription.unsubscribe();
+        LogService.log("quit 0");
     }
 
     // Alguns getters para comunicacao entre os componentes

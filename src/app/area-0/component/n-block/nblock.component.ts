@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
-import { Constants } from '../../game';
+import { Game, Constants } from '../../game';
 
 @Component({
   selector: 'app-nblock-0',
@@ -11,8 +11,9 @@ export class NBlockComponent implements OnInit {
   @ViewChild('nblockDOM', { static: true }) block!: ElementRef;
 
   // Outras variaveis
-  @Input() x?: number;    // Posicao X
-  @Input() y?: number;    // Posicao Y
+  @Input() x?: number;        // Posicao X
+  @Input() y?: number;        // Posicao Y
+  @Input() follow?: boolean;  // Seguir
 
   constructor() { }
 
@@ -28,8 +29,13 @@ export class NBlockComponent implements OnInit {
 
   // CSS update
   ngDoCheck(): void {
-    this.block.nativeElement.style.marginLeft = `${this.x}vw`;
-    this.block.nativeElement.style.marginTop = `${this.y}vw`;
+    var x = this.x!, y = this.y!;
+    if (this.follow) {
+      x += (Game.getPBlockCompX() * Constants.BLOCK_W);
+      y += (Game.getPBlockCompY() * Constants.BLOCK_H);
+    }
+    this.block.nativeElement.style.marginLeft = `${x}vw`;
+    this.block.nativeElement.style.marginTop = `${y}vw`;
   }
 
 }
