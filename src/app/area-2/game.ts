@@ -218,13 +218,14 @@ export class Game {
     // Regra 99 - Fim de jogo
     private static rule99(): void {
         var blocksPos: number[][] = ContainerComponent.getBlocksPos();
+        var flag: boolean = false;
         for (var i in blocksPos) {
             if (blocksPos[i][1] == 0) {
-                //LogService.log("l0 reached");
-                LogService.log("(game over)");
-                Game.stop();
+                flag = true;
+                break;
             }
         }
+        if (flag) Game.stop();
     }
 
     // Permissoes
@@ -256,6 +257,7 @@ export class Game {
     }
 
     static stop(): void {
+        LogService.log("(game over)");
         this.gameOver = true;
         Game.timerSubscription.unsubscribe();
         this.gameOver = false;
