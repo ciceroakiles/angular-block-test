@@ -3,7 +3,7 @@ import { Game, Constants } from '../../game';
 import { LogService } from '../../../service/log.service';
 
 @Component({
-  selector: 'app-pblock-1',
+  selector: 'app-pblock-2',
   templateUrl: './pblock.component.html',
   styleUrls: ['pblock.component.css'],
   host: { '(document:keyup)': 'keyup($event)' } // Listener

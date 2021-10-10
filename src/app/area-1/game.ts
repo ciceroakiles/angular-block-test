@@ -1,6 +1,6 @@
 import { interval, Subscription } from 'rxjs';
-import { ContainerComponent, PBlockComponent } from 'src/app/area-1/area-1.module';
-import { LogService } from 'src/app/logger/log.service';
+import { ContainerComponent, PBlockComponent } from '../area-1/area-1.module';
+import { LogService } from '../service/log.service';
 
 export class Game {
     // Variaveis
@@ -13,14 +13,13 @@ export class Game {
     private static setup(): void {
         Game.speed = 8;
         Game.start_px = 4;
-        Game.start_py = 1;
+        Game.start_py = 0;
     }
 
     // Regra 1 - Adicionar mais blocos nas posicoes e voltar ao inicio
     private static rule1(): void {
         var x = PBlockComponent.getX(), y = PBlockComponent.getY();
         ContainerComponent.addToMatrix(x, y);
-        
         // Reset
         PBlockComponent.setX(Game.start_px);
         PBlockComponent.setY(Game.start_py);
@@ -29,7 +28,6 @@ export class Game {
     // Regra 2 - Detectar colisoes
     private static rule2(): void {
         var x = PBlockComponent.getX(), y = PBlockComponent.getY();
-        
         // Verifica se atingiu a ultima linha, ou parou sobre um bloco (p-block)
         if (y == Constants.LINES-1 || PBlockComponent.detectCollision(0, 1)) {
             Game.rule1();
@@ -92,7 +90,6 @@ export class Game {
 
     static stop(): void {
         Game.timerSubscription.unsubscribe();
-        LogService.log("quit 1");
     }
 
     // Alguns getters para comunicacao entre os componentes
@@ -143,8 +140,4 @@ export class Constants {
     // Motion
     static AUTO_MOVE: boolean = false;
     static CAN_STOP: boolean = false;
-    static ALLOW_UP: boolean = false;
-    static ALLOW_DOWN: boolean = false;
-    static ALLOW_LEFT: boolean = true;
-    static ALLOW_RIGHT: boolean = true;
 }

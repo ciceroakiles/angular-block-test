@@ -34,6 +34,6 @@ div.adjust {
     margin-left: -1px;
 }
 
-div.invisible {
+div.no-border {
     border: none;
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { Game, Constants } from '../../game';
 
 @Component({
-  selector: 'app-nblock-0',
+  selector: 'app-nblock-2',
   templateUrl: './nblock.component.html',
   styleUrls: ['nblock.component.css'],
 })

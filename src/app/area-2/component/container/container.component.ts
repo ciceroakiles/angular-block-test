@@ -1,9 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Game, Constants } from '../../game';
-import { LogService } from '../../../service/log.service';
+import { LogService } from 'src/app/service/log.service';
 
 @Component({
-  selector: 'app-container-1',
+  selector: 'app-container-2',
   templateUrl: './container.component.html',
   styleUrls: ['./container.component.css']
 })
@@ -28,7 +28,7 @@ export class ContainerComponent implements OnInit {
   // Evita duplicacao de timers
   ngOnDestroy(): void {
     Game.stop();
-    LogService.log("quit 1");
+    LogService.log("quit 2");
   }
 
   // Encontra as posicoes de cada bloco
@@ -142,6 +142,14 @@ export class ContainerComponent implements OnInit {
         LogService.log("> i=" + i + " | j=" + j + " | value=" + ContainerComponent.matrix[i][j]);
       }
     }
+  }
+
+  // Metodos adicionais para uso em game.ts
+  largerGroup(): boolean {
+    return Game.getLargerGroup();
+  }
+  groupPattern(): number {
+    return Game.getGroupPattern();
   }
 
 }

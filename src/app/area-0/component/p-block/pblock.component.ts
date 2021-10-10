@@ -1,12 +1,12 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Game, Constants } from '../../game';
-import { LogService } from 'src/app/logger/log.service';
+import { LogService } from '../../../service/log.service';
 
 @Component({
   selector: 'app-pblock-0',
   templateUrl: './pblock.component.html',
   styleUrls: ['pblock.component.css'],
-  host: { '(document:keydown)': 'keydown($event)' } // Listener
+  host: { '(document:keyup)': 'keyup($event)' } // Listener
 })
 export class PBlockComponent implements OnInit {
   // Variavel de referencia ao elemento DOM
@@ -16,6 +16,11 @@ export class PBlockComponent implements OnInit {
   private static sx?: number;
   private static sy?: number;
   private static key?: string;
+
+  static ALLOW_UP: boolean = true;
+  static ALLOW_DOWN: boolean = true;
+  static ALLOW_LEFT: boolean = true;
+  static ALLOW_RIGHT: boolean = true;
 
   constructor() { }
 
@@ -33,6 +38,31 @@ export class PBlockComponent implements OnInit {
   ngDoCheck(): void {
     this.block.nativeElement.style.marginLeft = `${PBlockComponent.sx}vw`;
     this.block.nativeElement.style.marginTop = `${PBlockComponent.sy}vw`;
+    if (PBlockComponent.sy! < 0) {
+      this.turnInvisible(); //this.visibilityTest2();
+    } else {
+      this.turnVisible(); //this.visibilityTest1();
+    }
+  }
+
+  // Alteracoes no CSS
+  turnVisible(): void {
+    this.block.nativeElement.style.background = "gray";
+    this.block.nativeElement.style.border = "1px solid white";
+  }
+  turnInvisible(): void {
+    this.block.nativeElement.style.background = "black";
+    this.block.nativeElement.style.border = "none";
+  }
+
+  // Metodos para testes de visibilidade
+  visibilityTest1(): void {
+    this.block.nativeElement.style.background = "blue";
+    this.block.nativeElement.style.border = "1px solid white";
+  }
+  visibilityTest2(): void {
+    this.block.nativeElement.style.background = "red";
+    this.block.nativeElement.style.border = "1px solid white";
   }
 
   // Setter posicao X
@@ -75,34 +105,34 @@ export class PBlockComponent implements OnInit {
   static detectCollision(x: number, y: number): boolean {
     let i = x + PBlockComponent.getX();
     let j = y + PBlockComponent.getY();
-    if (i == -1) i = Constants.COLUMNS-1;
-    if (j == -1) j = Constants.LINES-1;
-    if (i == Constants.COLUMNS) i = 0;
-    if (j == Constants.LINES) j = 0;
     return ((Game.getContainerMatrixValue(i, j) == 1) && Constants.COLLIDE_P_TO_N);
   }
 
   // Movimentacoes via teclas
-  keydown(event: KeyboardEvent): void {
+  keyup(event: KeyboardEvent): void {
     switch (event.key) {
       case "ArrowUp": {
-        if (Constants.ALLOW_UP) {
-          if (Constants.AUTO_MOVE) PBlockComponent.key = "UP"; else PBlockComponent.moveUp();
+        PBlockComponent.key = "UP";
+        if (PBlockComponent.ALLOW_UP) {
+          if (!Constants.AUTO_MOVE) PBlockComponent.moveUp();
         }
       } break;
       case "ArrowDown": {
-        if (Constants.ALLOW_DOWN) {
-          if (Constants.AUTO_MOVE) PBlockComponent.key = "DOWN"; else PBlockComponent.moveDown();
+        PBlockComponent.key = "DOWN";
+        if (PBlockComponent.ALLOW_DOWN) {
+          if (!Constants.AUTO_MOVE) PBlockComponent.moveDown();
         }
       } break;
       case "ArrowLeft": {
-        if (Constants.ALLOW_LEFT) {
-          if (Constants.AUTO_MOVE) PBlockComponent.key = "LEFT"; else PBlockComponent.moveLeft();
+        PBlockComponent.key = "LEFT";
+        if (PBlockComponent.ALLOW_LEFT) {
+          if (!Constants.AUTO_MOVE) PBlockComponent.moveLeft();
         }
       } break;
       case "ArrowRight": {
-        if (Constants.ALLOW_RIGHT) {
-          if (Constants.AUTO_MOVE) PBlockComponent.key = "RIGHT"; else PBlockComponent.moveRight();
+        PBlockComponent.key = "RIGHT";
+        if (PBlockComponent.ALLOW_RIGHT) {
+          if (!Constants.AUTO_MOVE) PBlockComponent.moveRight();
         }
       } break;
       default: if (Constants.CAN_STOP) PBlockComponent.key = ""; break;
@@ -134,8 +164,7 @@ export class PBlockComponent implements OnInit {
 
   static moveDown(): void {
     if (!PBlockComponent.detectCollision(0, 1)) {
-      // Evita automovimentacao dupla por gravidade
-      if (!Constants.GRAVITY_P) PBlockComponent.key = "DOWN";
+      if (!Constants.GRAVITY_P) PBlockComponent.key = "DOWN"; // Evita automov. dupla por gravidade
       if (PBlockComponent.sy != Constants.MAX_Y) {
         PBlockComponent.sy! += Constants.BLOCK_H;
       } else if (Constants.LOOP_V) {

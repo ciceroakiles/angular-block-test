@@ -1,0 +1,59 @@
+<div #containerDOM class="container">
+    <div class="adjust" style="margin-top: -1px;">
+      <div class="no-border" *ngFor="let m of getMatrix(); let i = index">
+        <div class="no-border" *ngFor="let m of getMatrix(); let j = index">
+          <div class="no-border" *ngIf="getMatrixValue(i, j)">
+            <app-nblock-2 [x]='i' [y]='j' [follow]='false'></app-nblock-2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="adjust" style="margin-top: -2px;">
+      <app-pblock-2></app-pblock-2>
+      <div class="no-border" *ngIf="largerGroup()" [ngSwitch]="groupPattern()">
+        <!-- Padroes iniciais -->
+        <!-- O -->
+        <div class="no-border" *ngSwitchCase='1'>
+          <app-nblock-2 [x]='0' [y]='-1' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='1' [y]='0' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='1' [y]='-1' [follow]='true'></app-nblock-2>
+        </div>
+        <!-- Z -->
+        <div class="no-border" *ngSwitchCase='2'>
+          <app-nblock-2 [x]='0' [y]='-1' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='1' [y]='0' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='-1' [y]='-1' [follow]='true'></app-nblock-2>
+        </div>
+        <!-- S -->
+        <div class="no-border" *ngSwitchCase='3'>
+          <app-nblock-2 [x]='0' [y]='-1' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='-1' [y]='0' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='1' [y]='-1' [follow]='true'></app-nblock-2>
+        </div>
+        <!-- ¬ -->
+        <div class="no-border" *ngSwitchCase='4'>
+          <app-nblock-2 [x]='-1' [y]='0' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='1' [y]='0' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='1' [y]='1' [follow]='true'></app-nblock-2>
+        </div>
+        <!-- L -->
+        <div class="no-border" *ngSwitchCase='5'>
+          <app-nblock-2 [x]='-1' [y]='0' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='1' [y]='0' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='-1' [y]='1' [follow]='true'></app-nblock-2>
+        </div>
+        <!-- T -->
+        <div class="no-border" *ngSwitchCase='6'>
+          <app-nblock-2 [x]='-1' [y]='0' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='1' [y]='0' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='0' [y]='1' [follow]='true'></app-nblock-2>
+        </div>
+        <!-- I -->
+        <div class="no-border" *ngSwitchCase='7'>
+          <app-nblock-2 [x]='-1' [y]='0' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='1' [y]='0' [follow]='true'></app-nblock-2>
+          <app-nblock-2 [x]='2' [y]='0' [follow]='true'></app-nblock-2>
+        </div>
+      </div>
+    </div>
+</div>

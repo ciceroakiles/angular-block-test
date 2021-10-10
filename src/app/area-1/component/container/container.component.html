@@ -1,8 +1,8 @@
 <div #containerDOM class="container">
     <div class="adjust" style="margin-top: -1px;">
-      <div class="invisible" *ngFor="let m of getMatrix(); let i = index">
-        <div class="invisible" *ngFor="let m of getMatrix(); let j = index">
-          <div class="invisible" *ngIf="getMatrixValue(i, j)">
+      <div class="no-border" *ngFor="let m of getMatrix(); let i = index">
+        <div class="no-border" *ngFor="let m of getMatrix(); let j = index">
+          <div class="no-border" *ngIf="getMatrixValue(i, j)">
             <app-nblock-1 [x]='i' [y]='j' [follow]='false'></app-nblock-1>
           </div>
         </div>

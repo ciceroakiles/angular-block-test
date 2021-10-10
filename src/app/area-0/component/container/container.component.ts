@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Game, Constants } from '../../game';
-import { LogService } from 'src/app/logger/log.service';
+import { LogService } from '../../../service/log.service';
 
 @Component({
   selector: 'app-container-0',
@@ -28,6 +28,7 @@ export class ContainerComponent implements OnInit {
   // Evita duplicacao de timers
   ngOnDestroy(): void {
     Game.stop();
+    LogService.log("quit 0");
   }
 
   // Encontra as posicoes de cada bloco

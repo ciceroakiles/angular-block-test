@@ -36,6 +36,33 @@ export class NBlockComponent implements OnInit {
     }
     this.block.nativeElement.style.marginLeft = `${x}vw`;
     this.block.nativeElement.style.marginTop = `${y}vw`;
+    if (this.follow) {
+      if (y < 0) {
+        this.turnInvisible(); //this.visibilityTest1();
+      } else {
+        this.turnVisible(); //this.visibilityTest2();
+      }
+    }
+  }
+
+  // Alteracoes no CSS
+  turnVisible(): void {
+    this.block.nativeElement.style.background = "gray";
+    this.block.nativeElement.style.border = "1px solid white";
+  }
+  turnInvisible(): void {
+    this.block.nativeElement.style.background = "black";
+    this.block.nativeElement.style.border = "none";
+  }
+
+  // Metodos para testes de visibilidade
+  visibilityTest1(): void {
+    this.block.nativeElement.style.background = "blue";
+    this.block.nativeElement.style.border = "1px solid white";
+  }
+  visibilityTest2(): void {
+    this.block.nativeElement.style.background = "red";
+    this.block.nativeElement.style.border = "1px solid white";
   }
 
 }

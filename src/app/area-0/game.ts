@@ -1,6 +1,6 @@
 import { interval, Subscription } from 'rxjs';
 import { ContainerComponent, PBlockComponent } from 'src/app/area-0/area-0.module';
-import { LogService } from 'src/app/logger/log.service';
+import { LogService } from 'src/app/service/log.service';
 
 export class Game {
     // Variaveis
@@ -40,7 +40,6 @@ export class Game {
 
     static stop(): void {
         Game.timerSubscription.unsubscribe();
-        LogService.log("quit 0");
     }
 
     // Alguns getters para comunicacao entre os componentes
@@ -91,8 +90,4 @@ export class Constants {
     // Motion
     static AUTO_MOVE: boolean = true;
     static CAN_STOP: boolean = false;
-    static ALLOW_UP: boolean = true;
-    static ALLOW_DOWN: boolean = true;
-    static ALLOW_LEFT: boolean = true;
-    static ALLOW_RIGHT: boolean = true;
 }
