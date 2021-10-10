@@ -105,6 +105,14 @@ export class PBlockComponent implements OnInit {
   static detectCollision(x: number, y: number): boolean {
     let i = x + PBlockComponent.getX();
     let j = y + PBlockComponent.getY();
+    if (Constants.LOOP_H) {
+      if (i == -1) i = Constants.COLUMNS-1;
+      if (i == Constants.COLUMNS) i = 0;
+    }
+    if (Constants.LOOP_V) {
+      if (j == -1) j = Constants.LINES-1;
+      if (j == Constants.LINES) j = 0;
+    }
     return ((Game.getContainerMatrixValue(i, j) == 1) && Constants.COLLIDE_P_TO_N);
   }
 
