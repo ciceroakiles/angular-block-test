@@ -1,6 +1,6 @@
 import { interval, Subscription } from 'rxjs';
-import { ContainerComponent, PBlockComponent } from 'src/app/area-0/area-0.module';
-import { LogService } from 'src/app/service/log.service';
+import { ContainerComponent, PBlockComponent } from '../area-0/area-0.module';
+import { LogService } from '../service/log.service';
 
 export class Game {
     // Variaveis
