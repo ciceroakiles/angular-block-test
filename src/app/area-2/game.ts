@@ -14,27 +14,19 @@ export class Game {
     private static gPattern: number;
 
     static gameOver: boolean = false;
+    //static iniPattern: number = 16; // Testes
 
     // Definicoes iniciais
     private static setup(): void {
-        // Paredes para testes de colisao
-        /*
-        for (var i: number = 1; i < Constants.LINES; i++) {
-            ContainerComponent.addToMatrix(0, i);
-            ContainerComponent.addToMatrix(1, i); // if (i % 2 == 0)
-            ContainerComponent.addToMatrix(Constants.COLUMNS-1, i);
-            ContainerComponent.addToMatrix(Constants.COLUMNS-2, i); // if (i % 2 == 0)
-        }
-        */
-        Game.speed = 8;
+        Game.speed = 7;
         Game.start_px = 4;
         Game.start_py = -2;
 
         Game.largerGroup = true;
-        Game.gPattern = RNGService.randomInt(1, 7);
+        Game.gPattern = RNGService.randomInt(1, 16); //this.iniPattern;
     }
 
-    // Regra 1 - Adicionar mais blocos nas posicoes e voltar ao inicio
+    // Regra 1 - Adicionar mais blocos nas posicoes
     private static rule1(): void {
         var x = PBlockComponent.getX(), y = PBlockComponent.getY();
         ContainerComponent.addToMatrix(x, y);
@@ -77,11 +69,55 @@ export class Game {
                     ContainerComponent.addToMatrix(x+1, y);
                     ContainerComponent.addToMatrix(x+2, y);
                 } break;
-                
+                // Grupos rotacionados
+                case 8: {
+                    ContainerComponent.addToMatrix(x, y-1);
+                    ContainerComponent.addToMatrix(x-1, y);
+                    ContainerComponent.addToMatrix(x-1, y+1);
+                } break;
+                case 9: {
+                    ContainerComponent.addToMatrix(x, y-1);
+                    ContainerComponent.addToMatrix(x+1, y);
+                    ContainerComponent.addToMatrix(x+1, y+1);
+                } break;
+                case 10: {
+                    ContainerComponent.addToMatrix(x, y+1);
+                    ContainerComponent.addToMatrix(x, y-1);
+                    ContainerComponent.addToMatrix(x+1, y-1);
+                } break;
+                case 11: {
+                    ContainerComponent.addToMatrix(x+1, y);
+                    ContainerComponent.addToMatrix(x-1, y);
+                    ContainerComponent.addToMatrix(x-1, y-1);
+                } break;
+                case 12: {
+                    ContainerComponent.addToMatrix(x, y-1);
+                    ContainerComponent.addToMatrix(x, y+1);
+                    ContainerComponent.addToMatrix(x-1, y+1);
+                } break;
+                case 13: {
+                    ContainerComponent.addToMatrix(x, y-1);
+                    ContainerComponent.addToMatrix(x, y+1);
+                    ContainerComponent.addToMatrix(x+1, y+1);
+                } break;
+                case 14: {
+                    ContainerComponent.addToMatrix(x+1, y);
+                    ContainerComponent.addToMatrix(x-1, y);
+                    ContainerComponent.addToMatrix(x+1, y-1);
+                } break;
+                case 15: {
+                    ContainerComponent.addToMatrix(x-1, y-1);
+                    ContainerComponent.addToMatrix(x, y-1);
+                    ContainerComponent.addToMatrix(x, y+1);
+                } break;
+                case 16: {
+                    ContainerComponent.addToMatrix(x, y-2);
+                    ContainerComponent.addToMatrix(x, y-1);
+                    ContainerComponent.addToMatrix(x, y+1);
+                } break;
                 default: break;
             }
         }
-        Game.rule98();
     }
 
     // Regra 2 - Desempilhar linha horizontal completa
@@ -120,7 +156,6 @@ export class Game {
         var flag: boolean = false;
         // Colisoes de grupo
         if (Game.largerGroup) {
-            //var blocksPos: number[][] = ContainerComponent.getBlocksPos(); for (var i in blocksPos) { }
             switch (Game.gPattern) {
                 // Grupos iniciais
                 case 1: {
@@ -144,28 +179,60 @@ export class Game {
                 case 7: {
                     flag = (ContainerComponent.detectNCollision(x-1, y+1) || ContainerComponent.detectNCollision(x+1, y+1) || ContainerComponent.detectNCollision(x+2, y+1));
                 } break;
-                
+                // Grupos rotacionados
+                case 8: {
+                    flag = (ContainerComponent.detectNCollision(x-1, y+2));
+                } break;
+                case 9: {
+                    flag = (ContainerComponent.detectNCollision(x+1, y+2));
+                } break;
+                case 10: {
+                    flag = (ContainerComponent.detectNCollision(x, y+2) || ContainerComponent.detectNCollision(x+1, y));
+                } break;
+                case 11: {
+                    flag = (ContainerComponent.detectNCollision(x-1, y+1) || ContainerComponent.detectNCollision(x+1, y+1));
+                } break;
+                case 12: {
+                    flag = (ContainerComponent.detectNCollision(x, y+2) || ContainerComponent.detectNCollision(x-1, y+2));
+                } break;
+                case 13: {
+                    flag = (ContainerComponent.detectNCollision(x, y+2) || ContainerComponent.detectNCollision(x+1, y+2));
+                } break;
+                case 14: {
+                    flag = (ContainerComponent.detectNCollision(x-1, y+1) || ContainerComponent.detectNCollision(x+1, y+1));
+                } break;
+                case 15: {
+                    flag = (ContainerComponent.detectNCollision(x, y+2) || ContainerComponent.detectNCollision(x-1, y));
+                } break;
+                case 16: {
+                    flag = (ContainerComponent.detectNCollision(x, y+2));
+                } break;
                 default: break;
             }
             if (!flag) {
+                // Verifica se atingiu a ultima linha (n-block)
                 if (y == Constants.LINES-2) {
                     switch (Game.gPattern) {
                         case 4:
                         case 5:
                         case 6:
-                        case 8: {
+                        case 8:
+                        case 9:
+                        case 10:
+                        case 12:
+                        case 13:
+                        case 15:
+                        case 16: {
                             flag = true;
                         } break;
                         default: break;
                     }
                 }
-                // Verifica se atingiu a ultima linha, ou parou sobre um bloco (p-block)
                 if (y == Constants.LINES-1) flag = true;
-                if (PBlockComponent.detectCollision(0, 1)) {
-                    flag = true;
-                }
+                // Verifica se parou sobre um bloco (p-block)
+                if (PBlockComponent.detectCollision(0, 1)) flag = true;
             }
-            if (flag) Game.rule1();
+            if (flag) Game.rule98();
         }
     }
 
@@ -191,23 +258,49 @@ export class Game {
                     PBlockComponent.ALLOW_LEFT = !(PBlockComponent.getX() == 1 || ContainerComponent.detectNCollision(x-2, y));
                     PBlockComponent.ALLOW_RIGHT = !(PBlockComponent.getX() == Constants.COLUMNS-3 || ContainerComponent.detectNCollision(x+3, y));
                 } break;
-                
+                // Grupos rotacionados
+                case 8:
+                case 12:
+                case 15: {
+                    PBlockComponent.ALLOW_LEFT = !(PBlockComponent.getX() == 1 || ContainerComponent.detectNCollision(x-2, y));
+                    PBlockComponent.ALLOW_RIGHT = !(PBlockComponent.getX() == Constants.COLUMNS-1);
+                } break;
+                case 9:
+                case 10:
+                case 13: {
+                    PBlockComponent.ALLOW_LEFT = !(PBlockComponent.getX() == 0);
+                    PBlockComponent.ALLOW_RIGHT = !(PBlockComponent.getX() == Constants.COLUMNS-2 || ContainerComponent.detectNCollision(x+2, y));
+                } break;
+                case 11:
+                case 14: {
+                    PBlockComponent.ALLOW_LEFT = !(PBlockComponent.getX() == 1 || ContainerComponent.detectNCollision(x-2, y));
+                    PBlockComponent.ALLOW_RIGHT = !(PBlockComponent.getX() == Constants.COLUMNS-2 || ContainerComponent.detectNCollision(x+2, y));
+                } break;
+                case 16: {
+                    PBlockComponent.ALLOW_LEFT = !(PBlockComponent.getX() == 0);
+                    PBlockComponent.ALLOW_RIGHT = !(PBlockComponent.getX() == Constants.COLUMNS-1);
+                } break;
                 default: break;
             }
         }
     }
 
-    // Regra 98 - Reset
+    // Regra 98 - Resetar posicao ao continuar
     private static rule98(): void {
-        // Termina ou continua
         Game.rule99();
-        // Padrao aleatorio e ajuste de posicao y
-        Game.gPattern = RNGService.randomInt(1, 7);
+        // Se continua, adquire padrao aleatorio e ajusta posicao y
+        Game.gPattern = RNGService.randomInt(1, 16); //this.iniPattern;
         switch (Game.gPattern) {
             case 4:
             case 5:
             case 6:
-            case 8: Game.start_py = -2; break;
+            case 8:
+            case 9:
+            case 10:
+            case 12:
+            case 13:
+            case 15:
+            case 16: Game.start_py = -2; break;
             default: Game.start_py = -1; break;
         }
         // Posicao inicial
@@ -215,7 +308,7 @@ export class Game {
         PBlockComponent.setY(Game.start_py);
     }
 
-    // Regra 99 - Fim de jogo
+    // Regra 99 - Finalizar jogo ou adicionar mais blocos
     private static rule99(): void {
         var blocksPos: number[][] = ContainerComponent.getBlocksPos();
         var flag: boolean = false;
@@ -225,7 +318,11 @@ export class Game {
                 break;
             }
         }
-        if (flag) Game.stop();
+        if (flag) {
+            Game.stop();
+        } else {
+            Game.rule1();
+        }
     }
 
     // Permissoes
@@ -246,7 +343,6 @@ export class Game {
                     ContainerComponent.setBlocksPos();
                     Game.timedMoves();
                     Game.rule3();
-                    
                     for (var line: number = 0; line < Constants.LINES; line++) {
                         Game.rule2(line);
                     }
